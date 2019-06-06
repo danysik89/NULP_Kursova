@@ -23,7 +23,7 @@
     </label>
   
     <a class="waves-effect waves-light btn" (click)="square()">Знайти площу</a>  
-    <div class="result">Площа трикутника: {{result}}</div>
+    <div class="result" *ngIf="result">Площа трикутника: {{result}}см</div>
   </form>
 </div>
 
