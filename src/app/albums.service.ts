@@ -4,72 +4,17 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import * as _ from 'underscore';
-import { AlbumsComponent } from "./albums/albums.component";
 
 @Injectable()
 export class AlbumsService {
 
-    id = 1;
+    constructor(private http: Http) {}
 
-    constructor(private http: Http) {
-        
-    }
-
-    getAlbums() {
-      return  this.http.get('https://jsonplaceholder.typicode.com/albums')
+    getDivite() {
+      return  this.http.get('http://api.wolframalpha.com/input/json.jsp?assumptionsversion=2&async=true&banners=raw&debuggingdata=false&format=image,plaintext,imagemap,sound,minput,moutput&formattimeout=8&input=derivative+of+x%5E4&output=JSON&outputassumptionsversion=2&parsetimeout=5&podinfosasync=true&proxycode=46036654672c7fbd794766a534505fd1&recalcscheme=parallel&sbsdetails=true&scantimeout=0.5&sponsorcategories=true&statemethod=all&storesubpodexprs=true')
         .map(response => {
             return response.json();
         })             
     }
-    getPhotos(id) {
-        return  this.http.get(`https://jsonplaceholder.typicode.com/photos?albumId=${id}`)
-        .map(response => {
-            return response.json();
-        })         
-    }
-    getPhotoInfo(id) {
-        return  this.http.get(`https://jsonplaceholder.typicode.com/photos/${id}`)
-        .map(response => {
-            return response.json();
-        })         
-    }
-
-    getPager(totalItems: number, currentPage: number = 1, pageSize: number = 10) {
-
-        let totalPages = Math.ceil(totalItems / pageSize);
-        let startPage: number, endPage: number;
-
-        if (totalPages <= 10) {
-            startPage = 1;
-            endPage = totalPages;
-        } else {
-            if (currentPage <= 6) {
-                startPage = 1;
-                endPage = 10;
-            } else if (currentPage + 4 >= totalPages) {
-                startPage = totalPages - 9;
-                endPage = totalPages;
-            } else {
-                startPage = currentPage - 5;
-                endPage = currentPage + 4;
-            }
-        }
-
-        let startIndex = (currentPage - 1) * pageSize;
-        let endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
-
-        let pages = _.range(startPage, endPage + 1);
-
-        return {
-            totalItems: totalItems,
-            currentPage: currentPage,
-            pageSize: pageSize,
-            totalPages: totalPages,
-            startPage: startPage,
-            endPage: endPage,
-            startIndex: startIndex,
-            endIndex: endIndex,
-            pages: pages
-        };
-    }
+    
 } 
